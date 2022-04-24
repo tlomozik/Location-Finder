@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultsList";
 import getLocation from "../hooks/getLocation";
+//import { Text, Card } from "@rneui/themed";
+import CurrentLocationTile from "../components/CurrentLocationTile";
 
 const SearchScreen = () => {
   const [term, setTerm] = useState("");
-  const [searchApi, results, errorMessage] = useResults();
-  const [useLocation, location] = getLocation();
+  const [searchApi, results, errorResults] = useResults();
+  const [useLocation, location, errorLocation] = getLocation();
 
   const filterResultsByPrice = (price) => {
     return results.filter((results) => {
@@ -28,13 +30,13 @@ const SearchScreen = () => {
         onTermChange={setTerm}
         onTermSubmit={() => searchApi(term)}
       />
-      {errorMessage ? <Text>{errorMessage}</Text> : null}
-      {location?.coords.latitude ? (
-        <Text>{location?.coords.latitude}</Text>
-      ) : null}
+      {errorResults ? <Text>{errorResults}</Text> : null}
 
-      {location?.coords.longitude ? (
-        <Text>{location?.coords.longitude}</Text>
+      {!errorLocation ? (
+        <CurrentLocationTile
+          latitude={location?.coords.latitude}
+          longitude={location?.coords.longitude}
+        />
       ) : null}
 
       <ScrollView>
