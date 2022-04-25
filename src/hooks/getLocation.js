@@ -5,7 +5,6 @@ export default () => {
   const [location, setLocation] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const [locationDetails, setLocationDetails] = useState();
-
   const getLocation = async () => {
     const { status } = await LocationAPI.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -13,7 +12,9 @@ export default () => {
       setErrorMessage("Permission denied");
       return;
     } else {
-      setLocation(await LocationAPI.getCurrentPositionAsync({}));
+      const location = await LocationAPI.getCurrentPositionAsync({});
+      setLocation(location);
+
       const getLocationDetails = await LocationAPI.reverseGeocodeAsync({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
