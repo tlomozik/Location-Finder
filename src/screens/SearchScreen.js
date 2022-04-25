@@ -4,13 +4,12 @@ import SearchBar from "../components/SearchBar";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultsList";
 import getLocation from "../hooks/getLocation";
-//import { Text, Card } from "@rneui/themed";
 import CurrentLocationTile from "../components/CurrentLocationTile";
 
 const SearchScreen = () => {
   const [term, setTerm] = useState("");
   const [searchApi, results, errorResults] = useResults();
-  const [useLocation, location, errorLocation] = getLocation();
+  const [useLocation, location, locationDetails, errorLocation] = getLocation();
 
   const filterResultsByPrice = (price) => {
     return results.filter((results) => {
@@ -21,6 +20,7 @@ const SearchScreen = () => {
   useEffect(() => {
     useLocation();
     console.log(location);
+    console.log(locationDetails);
   }, []);
 
   return (
@@ -32,12 +32,14 @@ const SearchScreen = () => {
       />
       {errorResults ? <Text>{errorResults}</Text> : null}
 
-      {!errorLocation ? (
+      {!errorLocation && (
         <CurrentLocationTile
           latitude={location?.coords.latitude}
           longitude={location?.coords.longitude}
+          street={locationDetails?.street}
+          name={locationDetails?.name}
         />
-      ) : null}
+      )}
 
       <ScrollView>
         <ResultsList
