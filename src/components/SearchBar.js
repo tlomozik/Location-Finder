@@ -1,19 +1,27 @@
-import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 
-const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
+const SearchBar = (props) => {
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    { label: "Hotels", value: "hotels" },
+    { label: "Restaurants", value: "restaurants" },
+  ]);
+
   return (
     <View style={styles.backgroundStyle}>
-      <Feather name="search" style={styles.iconStyle} />
-      <TextInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        style={styles.inputStyle}
-        placeholder="Search"
-        value={term}
-        onChangeText={onTermChange}
-        onEndEditing={onTermSubmit}
+      <DropDownPicker
+        style={styles.dropdownpickerStyle}
+        open={open}
+        setOpen={setOpen}
+        items={items}
+        setItems={setItems}
+        value={props.term}
+        setValue={props.setTerm}
+        onChangeValue={(value) => {
+          props.setTerm(value);
+        }}
       />
     </View>
   );
@@ -25,19 +33,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: "white",
-    height: 50,
     borderRadius: 5,
     marginHorizontal: 15,
-    flexDirection: "row",
-  },
-  inputStyle: {
+    minHeight: 500,
     flex: 1,
-    fontSize: 18,
-  },
-  iconStyle: {
-    fontSize: 35,
-    alignSelf: "center",
-    marginHorizontal: 15,
   },
 });
 

@@ -1,57 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet } from "react-native";
 import SearchBar from "../components/SearchBar";
-import useResults from "../hooks/useResults";
-import ResultsList from "../components/ResultsList";
-import getLocation from "../hooks/getLocation";
+import useLocation from "../hooks/useLocation";
 import CurrentLocationTile from "../components/CurrentLocationTile";
+import usePlaceLocation from "../hooks/usePlaceLocation";
 
 const SearchScreen = () => {
-  const [term, setTerm] = useState("");
-  const [searchApi, results, errorResults] = useResults();
-  const [useLocation, location, locationDetails, errorLocation] = getLocation();
-
-  const filterResultsByPrice = (price) => {
-    return results.filter((results) => {
-      return results.price === price;
-    });
-  };
+  const [getLocation, location, errorLocation] = useLocation();
+  const [getPlaceLocation, place] = usePlaceLocation();
+  const [term, setTerm] = useState("hotels");
 
   useEffect(() => {
-    useLocation();
+    getLocation();
+    getPlaceLocation(term);
     console.log(location);
-    console.log(locationDetails);
-  }, []);
+    console.log(place);
+  }, [term]);
 
   return (
     <View style={{ flex: 1 }}>
-      <SearchBar
-        term={term}
-        onTermChange={setTerm}
-        onTermSubmit={() => searchApi(term)}
-      />
-      {errorResults ? <Text>{errorResults}</Text> : null}
-
       {!errorLocation && (
         <CurrentLocationTile
-          latitude={location?.coords.latitude}
-          longitude={location?.coords.longitude}
-          street={locationDetails?.street}
-          name={locationDetails?.name}
+          street={location?.street}
+          name={location?.name}
+          locationName={place?.name}
         />
       )}
 
-      <ScrollView>
-        <ResultsList
-          title="Cost Effective"
-          results={filterResultsByPrice("$")}
-        />
-        <ResultsList title="Bit Pricier" results={filterResultsByPrice("$$")} />
-        <ResultsList
-          title="Big Spender"
-          results={filterResultsByPrice("$$$")}
-        />
-      </ScrollView>
+      <SearchBar term={term} setTerm={setTerm} />
     </View>
   );
 };

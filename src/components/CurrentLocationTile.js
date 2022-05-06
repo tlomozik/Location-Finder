@@ -1,17 +1,13 @@
-import { StyleSheet, View } from "react-native";
-import { Text, Card } from "@rneui/themed";
+import { StyleSheet, View, Text } from "react-native";
+//import { Text, Card } from "@rneui/themed";
 import React from "react";
 
-const CurrentLocationTile = ({ longitude, latitude, street, name }) => {
+const CurrentLocationTile = ({ street, name, locationName }) => {
   return (
     <View style={styles.LocationTile}>
-      <Card>
-        <Text h3>{latitude}</Text>
-        <Text h3>{longitude}</Text>
-        <Text h3>
-          {street} {name}
-        </Text>
-      </Card>
+      <Text>
+        {street} {name} {locationName}
+      </Text>
     </View>
   );
 };
@@ -20,6 +16,6 @@ export default CurrentLocationTile;
 
 const styles = StyleSheet.create({
   LocationTile: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
 });
