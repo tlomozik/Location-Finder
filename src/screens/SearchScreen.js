@@ -6,28 +6,27 @@ import CurrentLocationTile from "../components/CurrentLocationTile";
 import usePlaceLocation from "../hooks/usePlaceLocation";
 
 const SearchScreen = () => {
-  const [getLocation, location, errorLocation] = useLocation();
-  const [getPlaceLocation, place] = usePlaceLocation();
+  const [getLocation, location, place, errorLocation] = useLocation();
+
   const [term, setTerm] = useState("hotels");
 
   useEffect(() => {
-    getLocation();
-    getPlaceLocation(term);
-    console.log(location);
-    console.log(place);
+    getLocation(term);
+    console.log(location, "location z SearchScreen");
+    console.log(place, "place z SearchScreen");
   }, [term]);
 
   return (
     <View style={{ flex: 1 }}>
+      <SearchBar term={term} setTerm={setTerm} />
       {!errorLocation && (
         <CurrentLocationTile
           street={location?.street}
           name={location?.name}
           locationName={place?.name}
+          locationDistance={place?.distance}
         />
       )}
-
-      <SearchBar term={term} setTerm={setTerm} />
     </View>
   );
 };

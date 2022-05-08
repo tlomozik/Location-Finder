@@ -8,9 +8,8 @@ export default () => {
   const distanceTemp = [];
 
   const usePlaceLocation = async (searchTerm) => {
-    getLocation();
-
     try {
+      getLocation();
       const res = await here.get(
         `discover?in=circle:${location.latitude},${location.longitude};r=500&q=${searchTerm}&apiKey=RI2ZHT12X2cEhnSq4gBZ0lR7Up-UxUzzdZ6BLRG4EZ4`
       );
@@ -21,7 +20,10 @@ export default () => {
       }
 
       setPlace({ name: placeTemp, distance: distanceTemp });
-    } catch (err) {}
+    } catch (err) {
+      console.log("błąd usePlaceLocation");
+    }
   };
+
   return [usePlaceLocation, place];
 };

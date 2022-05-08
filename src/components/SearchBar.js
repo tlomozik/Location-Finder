@@ -32,11 +32,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: "white",
     borderRadius: 5,
     marginHorizontal: 15,
-    minHeight: 500,
-    flex: 1,
+    minHeight: 100,
   },
 });
 
