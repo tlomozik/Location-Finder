@@ -2,16 +2,23 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Slider } from "@miblanchard/react-native-slider";
+import * as Localization from "expo-localization";
+import { pl, en } from "./languages";
+import i18n from "i18n-js";
+
+i18n.fallbacks = true;
+i18n.translations = { pl, en };
+i18n.locale = Localization.locale;
 
 const SearchBar = (props) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    { label: "Category", value: "category", disabled: true },
-    { label: "Hotels", value: "hotels", parent: "category" },
-    { label: "Restaurants", value: "restaurants", parent: "category" },
-    { label: "Shopping", value: "shopping", parent: "category" },
-    { label: "Transport", value: "transport", parent: "category" },
-    { label: "Facilities", value: "facilities", parent: "category" },
+    { label: i18n.t("category"), value: "category", disabled: true },
+    { label: i18n.t("hotels"), value: "hotels", parent: "category" },
+    { label: i18n.t("restaurants"), value: "restaurants", parent: "category" },
+    { label: i18n.t("shopping"), value: "shopping", parent: "category" },
+    { label: i18n.t("transport"), value: "transport", parent: "category" },
+    { label: i18n.t("facilities"), value: "facilities", parent: "category" },
   ]);
 
   const [track, setTrack] = useState(props.distanceTerm[0]);

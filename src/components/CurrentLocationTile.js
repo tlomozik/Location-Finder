@@ -2,6 +2,14 @@ import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import React from "react";
 import { Table, Row, Rows } from "react-native-table-component";
 import { Text, Card } from "@rneui/themed";
+import * as Localization from "expo-localization";
+import { pl, en } from "./languages";
+import i18n from "i18n-js";
+
+i18n.fallbacks = true;
+i18n.translations = { pl, en };
+i18n.locale = Localization.locale;
+
 const CurrentLocationTile = ({
   street,
   name,
@@ -16,7 +24,7 @@ const CurrentLocationTile = ({
       tableData.push([[locationName[a]], [locationDistance[a] + "m"]]);
     }
   }
-  const tablehead = ["Name", "Distance"];
+  const tablehead = [i18n.t("title"), i18n.t("distance")];
   console.log(loading);
   return (
     <View style={styles.container}>
