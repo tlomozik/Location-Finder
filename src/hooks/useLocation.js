@@ -1,21 +1,25 @@
 import { useState } from "react";
 import * as LocationAPI from "expo-location";
 import here from "../api/here";
+
 export default () => {
   const [errorMessage, setErrorMessage] = useState();
   const [location, setLocation] = useState();
   const [place, setPlace] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const placeTemp = [];
   const distanceTemp = [];
 
-  const useLocation = async (searchTerm) => {
+  const useLocation = async (searchTerm, distanceTerm) => {
     const { status } = await LocationAPI.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       console.log("Permission denied");
       setErrorMessage("Permission denied");
       return;
     }
+
+    setLoading(false);
+    console.log(distanceTerm[0], " z useLcoation");
 
     const coords = await LocationAPI.getCurrentPositionAsync({});
 
@@ -33,22 +37,25 @@ export default () => {
       street: getLocationDetails[0].street,
       name: getLocationDetails[0].name,
     });
-
     try {
       const res = await here.get(
-        `discover?in=circle:${latitude},${longitude};r=500&q=${searchTerm}&apiKey=RI2ZHT12X2cEhnSq4gBZ0lR7Up-UxUzzdZ6BLRG4EZ4`
+        `discover?in=circle:${latitude},${longitude};r=${distanceTerm[0].toFixed(
+          0
+        )}&q=${searchTerm}&apiKey=RI2ZHT12X2cEhnSq4gBZ0lR7Up-UxUzzdZ6BLRG4EZ4`
       );
 
       for (let response of res.data.items) {
-        placeTemp.push(response.address.label);
+        placeTemp.push(response.title);
         distanceTemp.push(response.distance);
       }
 
       setPlace({ name: placeTemp, distance: distanceTemp });
     } catch (err) {
-      console.log("błąd usePlaceLocation");
+      console.log(err);
     }
+
+    setLoading(true);
   };
 
-  return [useLocation, location, place, errorMessage];
+  return [useLocation, location, place, loading, errorMessage];
 };

@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import React from "react";
 import {
   Table,
@@ -7,14 +7,14 @@ import {
   Rows,
   Col,
   Cols,
-  Cell,
 } from "react-native-table-component";
-import { Text, Card, Button, Icon } from "@rneui/themed";
+import { Text, Card, Button, Icon, Dialog } from "@rneui/themed";
 const CurrentLocationTile = ({
   street,
   name,
   locationName,
   locationDistance,
+  loading,
 }) => {
   const tableData = [];
 
@@ -24,37 +24,42 @@ const CurrentLocationTile = ({
     }
   }
   const tablehead = ["Name", "Distance"];
-
+  console.log(loading);
   return (
     <View style={styles.container}>
-      <Card containerStyle={styles.cardTitleStyle}>
-        <Card.Title>
-          <Text style={styles.fonts} h4>
-            {street} {name}
-          </Text>
-        </Card.Title>
-      </Card>
-      <Card containerStyle={styles.cardTableStyle}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.scrollView}
-        >
-          <Table>
-            <Row
-              data={tablehead}
-              textStyle={styles.Rowtext}
-              style={styles.head}
-              flexArr={[4, 2]}
-            />
-            <Rows
-              data={tableData}
-              textStyle={styles.Rowstext}
-              style={styles.row}
-              flexArr={[4, 2]}
-            />
-          </Table>
-        </ScrollView>
-      </Card>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}
+      >
+        <Card containerStyle={styles.cardTableStyle}>
+          <Card.Title>
+            <Text style={styles.fonts} h4>
+              {street} {name}
+            </Text>
+          </Card.Title>
+
+          <Card.Divider />
+
+          {loading ? (
+            <Table>
+              <Row
+                data={tablehead}
+                textStyle={styles.Rowtext}
+                style={styles.head}
+                flexArr={[4, 2]}
+              />
+              <Rows
+                data={tableData}
+                textStyle={styles.Rowstext}
+                style={styles.row}
+                flexArr={[4, 2]}
+              />
+            </Table>
+          ) : (
+            <ActivityIndicator size="large" color="#000000" />
+          )}
+        </Card>
+      </ScrollView>
     </View>
   );
 };
@@ -63,11 +68,12 @@ export default CurrentLocationTile;
 
 const styles = StyleSheet.create({
   container: {
+    zIndex: 0,
     flex: 3,
-    padding: 10,
   },
   scrollView: {
-    marginHorizontal: 20,
+    marginHorizontal: 5,
+    paddingBottom: 100,
   },
   head: { height: 40, backgroundColor: "#f1f8ff" },
   Rowstext: { margin: 6 },
@@ -75,5 +81,5 @@ const styles = StyleSheet.create({
   row: { height: 50 },
   fonts: { marginBottom: 8 },
   cardTitleStyle: { backgroundColor: "#f1f8ff" },
-  cardTableStyle: { flex: 1 },
+  cardTableStyle: { flex: 1, borderRadius: 30 },
 });
