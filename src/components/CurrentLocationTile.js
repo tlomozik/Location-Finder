@@ -1,14 +1,7 @@
 import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import React from "react";
-import {
-  Table,
-  TableWrapper,
-  Row,
-  Rows,
-  Col,
-  Cols,
-} from "react-native-table-component";
-import { Text, Card, Button, Icon, Dialog } from "@rneui/themed";
+import { Table, Row, Rows } from "react-native-table-component";
+import { Text, Card } from "@rneui/themed";
 const CurrentLocationTile = ({
   street,
   name,
