@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import SearchBar from "../components/SearchBar";
 import useLocation from "../hooks/useLocation";
 import CurrentLocationTile from "../components/CurrentLocationTile";
+import WithoutPermissionTile from "../components/WithoutPermissionTile";
 
 const SearchScreen = () => {
   const [getLocation, location, place, loading, errorLocation] = useLocation();
@@ -23,7 +24,7 @@ const SearchScreen = () => {
         setDistanceTerm={setDistanceTerm}
         setTerm={setTerm}
       />
-      {!errorLocation && (
+      {!errorLocation ? (
         <CurrentLocationTile
           street={location?.street}
           name={location?.name}
@@ -31,6 +32,8 @@ const SearchScreen = () => {
           locationDistance={place?.distance}
           loading={loading}
         />
+      ) : (
+        <WithoutPermissionTile />
       )}
     </View>
   );

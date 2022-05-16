@@ -10,6 +10,9 @@ export default () => {
   const placeTemp = [];
   const distanceTemp = [];
 
+  let latitude;
+  let longitude;
+
   const useLocation = async (searchTerm, distanceTerm) => {
     const { status } = await LocationAPI.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -23,8 +26,8 @@ export default () => {
 
     const coords = await LocationAPI.getCurrentPositionAsync({});
 
-    const latitude = coords.coords.latitude;
-    const longitude = coords.coords.longitude;
+    latitude = coords.coords.latitude;
+    longitude = coords.coords.longitude;
 
     const getLocationDetails = await LocationAPI.reverseGeocodeAsync({
       latitude,

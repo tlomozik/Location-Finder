@@ -8,6 +8,8 @@ const pl = {
   restaurants: "Restauracje",
   hotels: "Hotele",
   appTitle: "Wyszukiwarka obiektów",
+  withoutpermission:
+    "Do prawidłowego działania aplikacji potrzebne jest zezwolenie na używanie aktualnej lokalizacji",
   lang: "pl",
 };
 
@@ -21,6 +23,8 @@ const en = {
   restaurants: "Restaurants",
   hotels: "Hotels",
   appTitle: "Business search",
+  withoutpermission:
+    "To run this application you must allow localization permissions ",
   lang: "en",
 };
 export { pl, en };
